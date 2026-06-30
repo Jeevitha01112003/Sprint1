@@ -1,0 +1,92 @@
+US01
+US02
+US03
+US04
+US05
+US06
+US07
+US08
+US09
+US10
+US11
+US12
+US13
+US14
+US15
+US16
+US17
+US18
+US19
+US20
+US21
+US22
+
+User Registration
+User Login
+Role Authentication
+Unique User Validation
+User Dashboard
+Location Management
+Location Management
+Event Approval
+Seat Capacity Management
+Event Creation
+Event Approval Request
+Event Details Management
+Event Management
+Event Cancellation
+Compensation Management
+Event Booking
+Ticket Booking
+Payment
+Receipt Generation
+Coupon Management
+Database Design
+Input Validation
+
+
+Create Registration Page
+Login API & Session
+Role-Based Access
+Validate User ID
+Display Logged-in User
+Add Event Location
+Location Entity Design
+Approve Event Request
+Monitor Seat Availability
+Create Event
+Send Approval Request
+Manage Event Information
+Edit Event
+Cancel Event
+Generate Compensation Coupon
+Browse Events
+Book Tickets
+Process Payment
+Generate E-Receipt
+Apply Compensation Coupon
+Normalize Database Tables
+Validate User Inputs
+
+Create a single registration page with role selection for Admin, Event Manager and Consumer.
+Implement a common login page with authentication and session management.
+Restrict features based on user roles and redirect users after login.
+Check whether the entered User ID already exists before registration.
+Display the logged-in User ID in the navigation bar after successful login.
+Allow Admin to add new event locations with complete details.
+Design the Location entity with attributes like Name, Address, Capacity, City and Facilities.
+Allow Admin to approve or reject event requests submitted by Event Managers.
+Display available and booked seat capacity for every event location.
+Allow Event Manager to create new events with all required details.
+Submit newly created events to Admin for approval.
+Manage event details including venue, date, time, ticket price and description.
+Allow Event Manager to update event information.
+Cancel an event and update its status in the system.
+Generate compensation coupons for consumers when an event is cancelled.
+Display all approved events available for booking.
+Allow consumers to select events and book tickets.
+Process payment and update booking status after successful payment.
+Generate an electronic receipt containing booking and payment information.
+Allow consumers to redeem compensation coupons during payment.
+Design normalized database tables with proper relationships and constraints.
+Validate all user inputs on frontend and backend with appropriate error messages.
