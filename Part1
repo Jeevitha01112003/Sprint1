@@ -1,0 +1,199 @@
+package eventticketbooking.model;
+
+public class User {
+
+    private String userId;
+    private String password;
+    private String name;
+    private String role;
+
+    public User(String userId,String password,String name,String role){
+
+        this.userId=userId;
+        this.password=password;
+        this.name=name;
+        this.role=role;
+
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+}
+
+
+
+package eventticketbooking.model;
+
+public class Admin extends User{
+
+    public Admin(String userId,String password,String name){
+
+        super(userId,password,name,"Admin");
+
+    }
+
+}
+
+
+package eventticketbooking.model;
+
+public class EventManager extends User{
+
+    public EventManager(String userId,String password,String name){
+
+        super(userId,password,name,"Event Manager");
+
+    }
+
+}
+
+
+
+
+package eventticketbooking.model;
+
+public class Consumer extends User{
+
+    public Consumer(String userId,String password,String name){
+
+        super(userId,password,name,"Consumer");
+
+    }
+
+}
+
+
+
+
+package eventticketbooking.database;
+
+import java.util.ArrayList;
+
+import eventticketbooking.model.User;
+
+public class Database {
+
+    public static ArrayList<User> users = new ArrayList<>();
+
+}
+
+
+
+
+
+package eventticketbooking.view;
+
+public class MainMenu {
+
+    public void displayMenu() {
+
+        System.out.println();
+        System.out.println("=================================");
+        System.out.println(" EVENT TICKET BOOKING SYSTEM");
+        System.out.println("=================================");
+        System.out.println("1. Register");
+        System.out.println("2. Login");
+        System.out.println("3. Exit");
+        System.out.print("Enter Choice : ");
+
+    }
+
+}
+
+
+
+
+package eventticketbooking.controller;
+
+public class AuthController {
+
+    public void register(){
+
+        System.out.println("Registration Module Coming in Part 2");
+
+    }
+
+    public void login(){
+
+        System.out.println("Login Module Coming in Part 2");
+
+    }
+
+}
+
+
+
+package eventticketbooking.service;
+
+public class AuthService {
+
+}
+
+
+
+package eventticketbooking;
+
+import java.util.Scanner;
+
+import eventticketbooking.controller.AuthController;
+import eventticketbooking.view.MainMenu;
+
+public class Main {
+
+    public static void main(String[] args) {
+
+        Scanner sc = new Scanner(System.in);
+
+        MainMenu menu = new MainMenu();
+
+        AuthController controller = new AuthController();
+
+        while (true) {
+
+            menu.displayMenu();
+
+            int choice = sc.nextInt();
+
+            switch (choice) {
+
+            case 1:
+
+                controller.register();
+                break;
+
+            case 2:
+
+                controller.login();
+                break;
+
+            case 3:
+
+                System.out.println("Thank You...");
+                System.exit(0);
+
+            default:
+
+                System.out.println("Invalid Choice");
+
+            }
+
+        }
+
+    }
+
+}
+
