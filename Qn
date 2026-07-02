@@ -1,0 +1,65 @@
+
+Event Ticket booking
+
+Create a web application Event Ticket booking system designed to handle events
+
+Event Ticket booking Case Study
+
+Project Overview
+
+Title: Event Ticket booking
+
+Stack :Java console based
+
+
+Objective:
+
+Develop a web application that centralizes the management of Events, their information, User interface for the consumers, and acts mediator between the Event organizers and consumers. This solution should improve the accessibility of users to the events, and for event organizers it should be easy to book locations and get to reach consumers easily.
+
+User Story:
+
+Auth
+
+-Create a registration page that can register an admin, event organizer, and consumers all in a single registration page, they can choose what type of account they are registering.
+
+-Regardless of who logins there should be a single login page which should take you to the appropriate User based on the account privilege eg: A consumer can only book tickets they cannot create events or approve events
+
+-The authentication userid and password must be unique, hence check during registration if the id is already being used
+
+-Once logged in make sure all the user ID is displayed in nav bar so that it indicates which user it is
+
+The admin is the one who manages the locations that are available for hosting events
+
+Admin
+
+-Admin should be able to add new location for the events to be conducted
+
+-Location object should have its own attributes that appropriately define a Location
+
+-Admin should be able to approve the events applied by the event manager
+
+-Admin should be able to monitor the seat capacity of the location
+
+event Manager
+
+-Should be able to create a new event
+
+-Should be able to send a request for approval for the event to be conducted in that location to the admin
+
+-Should be able to define everything about the event, example event location, price etc,
+
+-Should be able to edit event details
+
+-Should be able to cancel the event, but when the event is cancelled the conumers must get a coupon for compensation
+consumers
+
+-consumers must be able to select whichever event they want to book the tickets
+
+-consumer must pay and get a e-receipt
+
+-if the consumer has a compensation coupon, then he should be able to use the coupon to pay for the event
+
+-All tables should be Normalized
+
+-Make sure all the inputs are validated
+ I have question and answer code. Explain this for project presentation code line by line and tell me the concept includes in the integration process 
