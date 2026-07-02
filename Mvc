@@ -1,0 +1,293 @@
+package model;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Admin extends User {
+    private List<Location> locations = new ArrayList<>();
+
+    public Admin(String userId, String password) {
+        super(userId, password, "Admin");
+    }
+
+    public void addLocation(Location loc) {
+        locations.add(loc);
+        System.out.println("Location added: " + loc.getName());
+    }
+
+    public void approveEvent(Event event) {
+        event.setApproved(true);
+        System.out.println("Event approved: " + event.getTitle());
+    }
+
+    public List<Location> getLocations() { return locations; }
+}
+
+
+
+
+
+package model;
+
+public abstract class User {
+    protected String userId;
+    protected String password;
+    protected String role;
+
+    public User(String userId, String password, String role) {
+        this.userId = userId;
+        this.password = password;
+        this.role = role;
+    }
+
+    public String getUserId() { return userId; }
+    public String getRole() { return role; }
+    public boolean authenticate(String pwd) { return this.password.equals(pwd); }
+}
+
+
+
+
+package model;
+
+public class EventManager extends User {
+    public EventManager(String userId, String password) {
+        super(userId, password, "EventManager");
+    }
+}
+
+
+
+
+
+package model;
+
+public class EventManager extends User {
+    public EventManager(String userId, String password) {
+        super(userId, password, "EventManager");
+    }
+}
+
+
+
+
+
+package model;
+
+public class Event {
+    private String title;
+    private Location location;
+    private double price;
+    private boolean approved;
+    private boolean cancelled;
+
+    public Event(String title, Location location, double price) {
+        this.title = title;
+        this.location = location;
+        this.price = price;
+        this.approved = false;
+        this.cancelled = false;
+    }
+
+    public String getTitle() { return title; }
+    public Location getLocation() { return location; }
+    public double getPrice() { return price; }
+    public boolean isApproved() { return approved; }
+    public void setApproved(boolean approved) { this.approved = approved; }
+    public boolean isCancelled() { return cancelled; }
+    public void cancel() { this.cancelled = true; }
+}
+
+
+
+
+package model;
+
+public class Location {
+    private String name;
+    private int seatCapacity;
+
+    public Location(String name, int seatCapacity) {
+        this.name = name;
+        this.seatCapacity = seatCapacity;
+    }
+
+    public String getName() { return name; }
+    public int getSeatCapacity() { return seatCapacity; }
+}
+
+
+
+
+package model;
+
+public class Coupon {
+    private String code;
+
+    public Coupon(String code) {
+        this.code = code;
+    }
+
+    public String getCode() { return code; }
+}
+
+
+
+
+
+
+
+package controller;
+
+import model.*;
+import java.util.ArrayList;
+import java.util.List;
+
+public class EventController {
+    private List<User> users = new ArrayList<>();
+    private List<Event> events = new ArrayList<>();
+
+    // Registration & Authentication
+    public void registerUser(User user) {
+        for (User u : users) {
+            if (u.getUserId().equals(user.getUserId())) {
+                System.out.println("User ID already exists!");
+                return;
+            }
+        }
+        users.add(user);
+        System.out.println(user.getRole() + " registered: " + user.getUserId());
+    }
+
+    public User login(String userId, String password) {
+        for (User u : users) {
+            if (u.getUserId().equals(userId) && u.authenticate(password)) {
+                System.out.println("Login successful: " + u.getRole());
+                return u;
+            }
+        }
+        System.out.println("Invalid credentials!");
+        return null;
+    }
+
+    // Role-based services
+    public void adminAddLocation(Admin admin, Location loc) {
+        admin.addLocation(loc);
+    }
+
+    public void adminApproveEvent(Admin admin, Event event) {
+        admin.approveEvent(event);
+    }
+
+    public void managerCreateEvent(EventManager manager, Event event) {
+        events.add(event);
+        System.out.println("Event created: " + event.getTitle() + " (Pending approval)");
+    }
+
+    public void managerCancelEvent(EventManager manager, Event event) {
+        event.cancel();
+        System.out.println("Event cancelled: " + event.getTitle());
+        for (User u : users) {
+            if (u instanceof Consumer) {
+                ((Consumer) u).addCoupon(new Coupon("COMP-" + event.getTitle()));
+            }
+        }
+    }
+
+    public void consumerBookEvent(Consumer consumer, Event event) {
+        if (event.isApproved() && !event.isCancelled()) {
+            if (consumer.useCoupon(event)) {
+                System.out.println("Ticket booked using coupon for " + consumer.getUserId());
+            } else {
+                System.out.println("Ticket booked for " + consumer.getUserId() + " at " + event.getTitle() + " | Paid: " + event.getPrice());
+            }
+        } else {
+            System.out.println("Event not available for booking!");
+        }
+    }
+
+    public List<Event> getEvents() { return events; }
+    public List<User> getUsers() { return users; }
+}
+
+
+
+
+
+package view;
+
+import java.util.Scanner;
+
+public class ConsoleView {
+    private Scanner sc = new Scanner(System.in);
+
+    public String getInput(String msg) {
+        System.out.print(msg);
+        return sc.nextLine();
+    }
+
+    public void showAdminMenu() {
+        System.out.println("\n--- Admin Menu ---");
+        System.out.println("1. Add Location");
+        System.out.println("2. Approve Event");
+        System.out.println("3. Logout");
+    }
+
+    public void showManagerMenu() {
+        System.out.println("\n--- Event Manager Menu ---");
+        System.out.println("1. Create Event");
+        System.out.println("2. Cancel Event");
+        System.out.println("3. Logout");
+    }
+
+    public void showConsumerMenu() {
+        System.out.println("\n--- Consumer Menu ---");
+        System.out.println("1. Book Event");
+        System.out.println("2. Logout");
+    }
+}
+
+
+
+
+
+
+
+import controller.EventController;
+import model.*;
+import view.ConsoleView;
+import java.util.List;
+
+public class Main {
+    public static void main(String[] args) {
+        EventController controller = new EventController();
+        ConsoleView view = new ConsoleView();
+
+        // Register sample users
+        Admin admin = new Admin("admin1", "pass");
+        EventManager manager = new EventManager("mgr1", "pass");
+        Consumer consumer = new Consumer("cons1", "pass");
+
+        controller.registerUser(admin);
+        controller.registerUser(manager);
+        controller.registerUser(consumer);
+
+        // Simulate login
+        User loggedIn = controller.login("admin1", "pass");
+
+        if (loggedIn instanceof Admin) {
+            view.showAdminMenu();
+            controller.adminAddLocation((Admin) loggedIn, new Location("City Hall", 100));
+            controller.adminApproveEvent((Admin) loggedIn, new Event("Music Fest", new Location("City Hall", 100), 500.0));
+        } else if (loggedIn instanceof EventManager) {
+            view.showManagerMenu();
+            controller.managerCreateEvent((EventManager) loggedIn, new Event("Music Fest", new Location("City Hall", 100), 500.0));
+        } else if (loggedIn instanceof Consumer) {
+            view.showConsumerMenu();
+            if (!controller.getEvents().isEmpty()) {
+                controller.consumerBookEvent((Consumer) loggedIn, controller.getEvents().get(0));
+            }
+        }
+    }
+}
+
